@@ -8,6 +8,8 @@ body {
 
 h2 {
     margin-top: 5px;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 .header {
     z-index: 100;
@@ -48,8 +50,10 @@ h2 {
     padding: 24px;
     margin: 5px; */
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: baseline;
+    padding-left: 20px;
+    padding-top: 20px;
 
 
 }
@@ -60,10 +64,14 @@ h2 {
     position: relative;
 }
 .pokeImg {
+    position: absolute;
     z-index: 10;
     width: 100px;
     height:100px;
     object-fit: contain;
+    top: 80px;
+    right:60px;
+   
 }
 
 .poke_icon {
@@ -83,4 +91,46 @@ h2 {
     border-top-right-radius: 30px;
     height: 300px;
     margin-top: -50px;
+}
+
+.types span{
+    background-color: rgba(255, 255, 255, 0.207);
+    border-radius: 10px;
+   padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 5px;
+}
+
+.id {
+    position:absolute;
+    top: 30px;
+    right: 20px;
+}
+
+.name {
+    display: flex;
+    flex-direction: column;
+}
+
+.grass {
+    background-color: green;
+}
+
+.fire {
+    background-color: rgb(190, 12, 12);
+}
+.water {
+    background-color: rgb(34, 76, 247);
+}
+.bug {
+    background-color: blueviolet;
+}
+.normal {
+    background-color: rgb(3, 65, 141);
+}
+.electric {
+    background-color: rgb(146, 146, 146);
+}
+.ground {
+    background-color: rgb(120, 64, 5);
 }

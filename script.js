@@ -18,14 +18,26 @@ async function load30Pokemon(){
 }
 
 function renderPokemonInfo(){
-    for (j=0; j<pokemons.length; j++)
+    for (j=0; j<pokemons.length; j++){
 
     document.getElementById(`main`).innerHTML += `
-    <div class="card"><div class="pokedexCard" id="pokedex${j}">
-        <h2 id="pokemonName${j}">${pokemons[j].name}</h2>
-        <span class="id" id="id${j}">#${pokemons[j].id}</span>
-        <img class="pokeImg" src=${pokemons[j].sprites.other.dream_world.front_default}>
-        <img class="poke_icon" src="./img/pokemon_bg_wht.png">
+    <div class="card">
+        <div class="pokedexCard ${pokemons[j].types[0].type.name}" id="pokedex${j}">
+        <div class="name">
+            <h2 id="pokemonName${j}">${pokemons[j].name}</h2>
+            <div class="types" id="types${j}"></div>
+        </div>
+             <span class="id" id="id${j}">#${pokemons[j].id}</span>
+            <img class="pokeImg" src=${pokemons[j].sprites.other.dream_world.front_default}>
+             <img class="poke_icon" src="./img/pokemon_bg_wht.png">
     </div>  <div class="info-container"></div></div>`;
-    
+      
+    renderTypes(j);
+    }
+}
+
+function renderTypes(j){
+    for (let i = 0; i<pokemons[j].types.length; i++){
+document.getElementById(`types${j}`).innerHTML += `<span> ${pokemons[j].types[i].type.name}</span> ` ;
+    }
 }
