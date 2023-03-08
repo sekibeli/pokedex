@@ -7,7 +7,7 @@ body {
 }
 
 h2 {
-    margin-top: 20px;
+    margin-top: 5px;
 }
 .header {
     z-index: 100;
@@ -57,12 +57,22 @@ h2 {
 .card {
     margin: 5px;
     border-radius: 40px;
+    position: relative;
 }
 .pokeImg {
     z-index: 10;
     width: 100px;
     height:100px;
     object-fit: contain;
+}
+
+.poke_icon {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    position: absolute;
+    top: 40px;
+    right: 10px;
 }
 
 .info-container {
