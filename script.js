@@ -5,20 +5,24 @@ let count = 1;
 
 async function load30Pokemon(){
     
-    for (i = count; i <= count + 30; i++){
+    for (i = count; i < count + 30; i++){
     let url = `https://pokeapi.co/api/v2/pokemon/${i}/`;
     let response = await fetch(url);
     let pokemon = await response.json();
     pokemons.push(pokemon);
+    
    
   
     }
     console.log('Server antwortet: ' , pokemons);
     renderPokemonInfo();
+    count += 30;
+    console.log(count);
+   
 }
 
 function renderPokemonInfo(){
-    for (j=0; j<pokemons.length; j++){
+    for (j=count-1; j<pokemons.length; j++){
 
     document.getElementById(`main`).innerHTML += `
     <div class="card">
@@ -41,3 +45,7 @@ function renderTypes(j){
 document.getElementById(`types${j}`).innerHTML += `<span> ${pokemons[j].types[i].type.name}</span> ` ;
     }
 }
+
+// window.addEventListener ('scroll',function () {
+//    load30Pokemon();
+//   });
