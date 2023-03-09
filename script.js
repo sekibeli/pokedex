@@ -40,15 +40,15 @@ function renderPokemonInfo() {
             <span>${(pokemons[j].weight)/10} kg</span>
             </div>
         <div class="info-container">
-             <nav>
+             <nav class="line">
                  <ul class="menu">
                      <li>About</li>
-                    <li>Base Stats</li>
+                    <li id="baseStats${j}" onclick="">Base Stats</li>
                      <li>Moves</li>
              </nav>
             
         <div id="about" class="info"></div>
-        <div id="stats${j}"></div>
+        <div id="stats${j}" class="statsContainer"></div>
         <div id="moves" class="info"></div>
        
         </div>
@@ -73,5 +73,9 @@ function renderStats(j){
         <div class="progress-bar ${pokemons[j].types[0].type.name}" style="width: ${pokemons[j].stats[i].base_stat}%"></div>
       </div></div>`;
     }
+}
+
+function show(param){
+    document.getElementById(`${param0}`).classList.remove('d-none');
 }
 

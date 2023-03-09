@@ -87,7 +87,7 @@ h2 {
 }
 
 .info-container {
-    padding: 5px;
+    padding: 10px;
     border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
     background-color: white;
@@ -139,22 +139,45 @@ h2 {
     display: flex;
     list-style: none;;
     font-weight: 500;
+    display: flex;
+    padding-left: 0;
+    justify-content: space-between;
+    margin-bottom: 0;
+
 
 }
 
 .menu li {
-    padding: 5px;
+   
 }
 
+.line {
+    border-bottom: 1px solid lightgrey;
+}
 .menu li:hover {
-    font-weight: 700;
+   
     cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 5px; 
+    text-decoration-thickness: 2px;
+    text-decoration-color: rgb(0, 0, 0);
+    color: black;
+
+
+
 
 }
 .infoStats {
     display: flex;
     font-size: 10px;
     color: grey;
+    justify-content: space-between;
+    padding-top:3px;
+    padding-bottom: 3px;
+}
+
+.statsContainer {
+    margin-top: 20px;
 }
 
 .statName {
