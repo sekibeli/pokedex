@@ -11,6 +11,9 @@ h2 {
     margin-bottom: 0;
     padding-bottom: 0;
 }
+.d-none {
+    display: none;
+}
 .header {
     z-index: 100;
     height: 50px;
@@ -84,6 +87,7 @@ h2 {
 }
 
 .info-container {
+    padding: 5px;
     border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
     background-color: white;
@@ -111,10 +115,61 @@ h2 {
     display: flex;
     flex-direction: column;
 }
+#heiWei {
+    position: absolute;
+    top: 90px;
+    left: 20px;
+    color: rgba(255, 255, 255, 0.466);
+    font-size: small;
+}
 #weiter {
     cursor: pointer;
 }
 
+.info {
+   
+
+}
+
+.menu {
+    gap: 35px;
+    color: grey;
+    font-size: 12px;
+    margin-top: 25px;
+    display: flex;
+    list-style: none;;
+    font-weight: 500;
+
+}
+
+.menu li {
+    padding: 5px;
+}
+
+.menu li:hover {
+    font-weight: 700;
+    cursor: pointer;
+
+}
+.infoStats {
+    display: flex;
+    font-size: 10px;
+    color: grey;
+}
+
+.statName {
+    width: 100px;
+
+}
+
+.statAmount {
+    width: 20px;
+}
+
+.progress {
+    width: 50%;
+    margin-top: 5px;
+}
 .grass {
     background-color: green;
 }
