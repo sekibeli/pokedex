@@ -42,12 +42,12 @@ function renderPokemonInfo() {
         <div class="info-container">
              <nav class="line">
                  <ul class="menu">
-                     <li>About</li>
+                    
                     <li id="stats${j}" onclick="show('statsContainer${j}', 'movesContainer${j}')">Base Stats</li>
                      <li id="moves${j}" onclick="show('movesContainer${j}', 'statsContainer${j}')">Moves</li>
              </nav>
             
-        <div id="about" class="info"></div>
+
         <div id="statsContainer${j}" class="statsContainer"></div>
         <div id="movesContainer${j}" class="movesContainer d-none"></div>
        
@@ -58,6 +58,8 @@ function renderPokemonInfo() {
         renderStats(j);
         getMax(j);
         renderMoves(j);
+        renderAbilities(j);
+        renderBaseExperience(j)
     }
 }
 
@@ -74,6 +76,13 @@ function renderStats(j){
         aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 5px">
         <div class="progress-bar ${pokemons[j].types[0].type.name}" style="width: ${getCorrectBar(i,j)}%"></div>
       </div></div>`;
+    }
+}
+
+function renderAbilities(j){
+    document.getElementById(`statsContainer${j}`).innerHTML += `<div class="abilities line"><span>Abilities</span></div>`;
+    for ( let i=0; i< pokemons[j].abilities.length; i++){
+        document.getElementById(`statsContainer${j}`).innerHTML += `<span class="ability ${pokemons[j].types[0].type.name}">  ${pokemons[j].abilities[i].ability.name}</span>`;
     }
 }
 
@@ -103,6 +112,12 @@ function getCorrectBar(i, j){
 function renderMoves(j){
     for (let i=0; i< pokemons[j].moves.length; i++){
         document.getElementById(`movesContainer${j}`).innerHTML += `<span>${pokemons[j].moves[i].move.name} </span>`;
-        console.log(pokemons[j].moves[i].move.name);
+       
     }
 }
+
+function renderBaseExperience(j){
+    document.getElementById(`statsContainer${j}`).innerHTML += `<div class="abilities line"><span>Base Experience</span></div><span class="ability ${pokemons[j].types[0].type.name} ">${pokemons[j].base_experience}</span>`;
+   
+       
+    }

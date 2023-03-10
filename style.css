@@ -73,7 +73,7 @@ h2 {
     height:100px;
     object-fit: contain;
     top: 80px;
-    right:60px;
+    right:40px;
    
 }
 
@@ -83,7 +83,7 @@ h2 {
     object-fit: contain;
     position: absolute;
     top: 40px;
-    right: 10px;
+    right: -30px;
 }
 
 .info-container {
@@ -93,7 +93,7 @@ h2 {
     background-color: white;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
-    height: 300px;
+    height: 350px;
     margin-top: -50px;
     max-width: 300px;
     overflow-y: scroll;
@@ -131,17 +131,18 @@ h2 {
 
 
 .menu {
-    gap: 35px;
+     gap: 20px; 
     color: grey;
     font-size: 12px;
-    margin-top: 25px;
+    margin-top: 5px;
     display: flex;
     list-style: none;;
     font-weight: 500;
     display: flex;
     padding-left: 0;
-    justify-content: space-between;
+    justify-content: flex-start;
     margin-bottom: 0;
+    z-index: 200;
 
 
 }
@@ -164,7 +165,7 @@ h2 {
 }
 .infoStats {
     display: flex;
-    font-size: 10px;
+    font-size: 11px;
     color: grey;
     justify-content: space-between;
     padding-top:3px;
@@ -181,27 +182,56 @@ h2 {
 }
 
 .movesContainer {
-    font-size: 10px;
+    
+    font-size: 12px;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     flex-wrap: wrap;
+    text-decoration: underline;
+    line-height: 100%;
+    padding-top: 5px;
+    
    
 }
 
 .movesContainer span {
-    background-color: rgba(112, 112, 112, 0.188);
-    margin-top: 3px;
+   text-decoration: 1px solid grey;
+    margin-top: 0;
     margin-right: 3px;
     border-radius: 3px;
    
+}
+
+.abilities {
+    
+    color: grey;
+    font-size: 12px;
+    margin-top: 15px;
+    display: flex;
+    list-style: none;;
+    font-weight: 500;
+    display: flex;
+    padding-left: 0;
+    justify-content: flex-start;
+    margin-bottom: 0;
+    z-index: 200;
 }
 .statAmount {
     width: 20px;
 }
 
 .progress {
-    width: 50%;
+    width: 45%;
     margin-top: 5px;
+}
+.ability {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.596);
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 5px;
+    
 }
 .grass {
     background-color: green;
@@ -225,3 +255,5 @@ h2 {
 .ground {
     background-color: rgb(120, 64, 5);
 }
+
+
