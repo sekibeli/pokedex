@@ -56,6 +56,7 @@ function renderPokemonInfo() {
 
         renderTypes(j);
         renderStats(j);
+        getMax(j);
     }
 }
 
@@ -70,7 +71,7 @@ function renderStats(j){
         document.getElementById(`stats${j}`).innerHTML += ` <div class="infoStats"><span class="statName">${pokemons[j].stats[i].stat.name}</span>
         <span class="statAmount">${pokemons[j].stats[i].base_stat}</span>  <div class="progress" role="progressbar" aria-label="Example 20px high" 
         aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 5px">
-        <div class="progress-bar ${pokemons[j].types[0].type.name}" style="width: ${pokemons[j].stats[i].base_stat}%"></div>
+        <div class="progress-bar ${pokemons[j].types[0].type.name}" style="width: ${getCorrectBar(i,j)}%"></div>
       </div></div>`;
     }
 }
@@ -79,3 +80,19 @@ function show(param){
     document.getElementById(`${param0}`).classList.remove('d-none');
 }
 
+function getMax(j){
+let numbers = [];
+for (i=0; i< pokemons[j].stats.length; i++){
+numbers.push(pokemons[j].stats[i].base_stat);
+numbers.sort(function(a,b){return a-b});
+}
+
+  
+return numbers;
+}
+
+function getCorrectBar(i, j){
+    let numbers = getMax(j);
+      return (100 / numbers[5] * pokemons[j].stats[i].base_stat);
+}
+// ${pokemons[j].stats[i].base_stat}
