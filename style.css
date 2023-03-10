@@ -95,6 +95,8 @@ h2 {
     border-top-right-radius: 30px;
     height: 300px;
     margin-top: -50px;
+    max-width: 300px;
+    overflow-y: scroll;
 }
 
 .types span{
@@ -126,10 +128,7 @@ h2 {
     cursor: pointer;
 }
 
-.info {
-   
 
-}
 
 .menu {
     gap: 35px;
@@ -145,10 +144,6 @@ h2 {
     margin-bottom: 0;
 
 
-}
-
-.menu li {
-   
 }
 
 .line {
@@ -185,6 +180,21 @@ h2 {
 
 }
 
+.movesContainer {
+    font-size: 10px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+   
+}
+
+.movesContainer span {
+    background-color: rgba(112, 112, 112, 0.188);
+    margin-top: 3px;
+    margin-right: 3px;
+    border-radius: 3px;
+   
+}
 .statAmount {
     width: 20px;
 }
