@@ -1,4 +1,7 @@
 let pokemons = [];
+let allPokemons = [];
+let allNames = [];
+let beginsWith = [];
 
 let pokemonsOnScreen;
 let count = 1;
@@ -120,4 +123,20 @@ function renderBaseExperience(j){
     document.getElementById(`statsContainer${j}`).innerHTML += `<div class="abilities line"><span>Base Experience</span></div><span class="ability ${pokemons[j].types[0].type.name} ">${pokemons[j].base_experience}</span>`;
    
        
+    }
+
+    async function getAllPokemons(){
+        setTimeout(2);
+        let baseUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=1400';
+        let response = await fetch(baseUrl);
+        allPokemons = await response.json(response);
+        search();
+    }
+
+    function search(){
+        for (let i = 0; i< allPokemons.results.length; i++){
+         allNames.push(allPokemons.results[i].name);
+        }
+        let beginsWith = allNames.filter((oneName) => oneName.startsWith("b"));
+        console.log(beginsWith);
     }
