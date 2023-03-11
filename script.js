@@ -27,35 +27,7 @@ async function load30Pokemon() {
 function renderPokemonInfo() {
     for (j = count - 1; j < pokemons.length; j++) {
 
-        document.getElementById(`main`).innerHTML += `
-    <div class="card">
-        <div class="pokedexCard ${pokemons[j].types[0].type.name}" id="pokedex${j}">
-             <div class="name">
-                    <h2 id="pokemonName${j}">${pokemons[j].name}</h2>
-                     <div class="types" id="types${j}"></div>
-            </div>
-            <span class="id" id="id${j}">#${pokemons[j].id}</span>
-            <img class="pokeImg" src=${pokemons[j].sprites.other.dream_world.front_default}>
-            <img class="poke_icon" src="./img/pokemon_bg_wht.png">
-        </div>  
-        <div id="heiWei">
-            <span>${(pokemons[j].height)/10} m</span><br>
-            <span>${(pokemons[j].weight)/10} kg</span>
-            </div>
-        <div class="info-container">
-             <nav class="line">
-                 <ul class="menu">
-                    
-                    <li id="stats${j}" onclick="show('statsContainer${j}', 'movesContainer${j}')">Base Stats</li>
-                     <li id="moves${j}" onclick="show('movesContainer${j}', 'statsContainer${j}')">Moves</li>
-             </nav>
-            
-
-        <div id="statsContainer${j}" class="statsContainer"></div>
-        <div id="movesContainer${j}" class="movesContainer d-none"></div>
-       
-        </div>
-        </div>`;
+        document.getElementById(`main`).innerHTML += pokemonMainTemplate(j);
 
         renderTypes(j);
         renderStats(j);
@@ -64,6 +36,38 @@ function renderPokemonInfo() {
         renderAbilities(j);
         renderBaseExperience(j)
     }
+}
+
+function pokemonMainTemplate(){
+return `
+<div class="card">
+    <div class="pokedexCard ${pokemons[j].types[0].type.name}" id="pokedex${j}">
+         <div class="name">
+                <h2 id="pokemonName${j}">${pokemons[j].name}</h2>
+                 <div class="types" id="types${j}"></div>
+        </div>
+        <span class="id" id="id${j}">#${pokemons[j].id}</span>
+        <img class="pokeImg" src=${pokemons[j].sprites.other.dream_world.front_default}>
+        <img class="poke_icon" src="./img/pokemon_bg_wht.png">
+    </div>  
+    <div id="heiWei">
+        <span>${(pokemons[j].height)/10} m</span><br>
+        <span>${(pokemons[j].weight)/10} kg</span>
+        </div>
+    <div class="info-container">
+         <nav class="line">
+             <ul class="menu">
+                
+                <li id="stats${j}" onclick="show('statsContainer${j}', 'movesContainer${j}')">Base Stats</li>
+                 <li id="moves${j}" onclick="show('movesContainer${j}', 'statsContainer${j}')">Moves</li>
+         </nav>
+        
+
+    <div id="statsContainer${j}" class="statsContainer"></div>
+    <div id="movesContainer${j}" class="movesContainer d-none"></div>
+   
+    </div>
+    </div>`;
 }
 
 function renderTypes(j) {
@@ -130,13 +134,19 @@ function renderBaseExperience(j){
         let baseUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=1400';
         let response = await fetch(baseUrl);
         allPokemons = await response.json(response);
+        for (let i = 0; i< allPokemons.results.length; i++){
+            allNames.push(allPokemons.results[i].name);
+        
+        }
         search();
     }
 
     function search(){
-        for (let i = 0; i< allPokemons.results.length; i++){
-         allNames.push(allPokemons.results[i].name);
-        }
-        let beginsWith = allNames.filter((oneName) => oneName.startsWith("b"));
+        let search = document.getElementById('search').value;
+        let beginsWith = allNames.filter((oneName) => oneName.startsWith(`${search}`));
+        // console.log(beginsWith);
         console.log(beginsWith);
-    }
+         
+        }
+       
+    
