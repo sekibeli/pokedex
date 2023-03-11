@@ -2,6 +2,9 @@ let pokemons = [];
 let allPokemons = [];
 let allNames = [];
 let beginsWith = [];
+let allPokes = [];
+let ids = [];
+let searchedPokemons = [];
 
 let pokemonsOnScreen;
 let count = 1;
@@ -21,7 +24,18 @@ async function load30Pokemon() {
     renderPokemonInfo();
     count += 30;
     console.log(count);
+    loadTheRest();
+  
 
+}
+
+async function loadTheRest(){
+    for (let i = 30; i < 1300; i++) {
+        let url = `https://pokeapi.co/api/v2/pokemon/${i}/`;
+        let response = await fetch(url);
+        let pokemon = await response.json();
+        pokemons.push(pokemon);
+}
 }
 
 function renderPokemonInfo() {
@@ -38,7 +52,7 @@ function renderPokemonInfo() {
     }
 }
 
-function pokemonMainTemplate(){
+function pokemonMainTemplate(j){
 return `
 <div class="card">
     <div class="pokedexCard ${pokemons[j].types[0].type.name}" id="pokedex${j}">
@@ -128,25 +142,109 @@ function renderBaseExperience(j){
    
        
     }
+    // async function getAllPokemons(){
+    //     setTimeout(2);
+    //     let baseUrl = ' https://pokeapi.co/api/v2/pokemon/?limit=1400';
+    //     let response = await fetch(baseUrl);
+    //     allPokemons = await response.json();
+    //    for(let i = 0; i < allPokemons.results.length; i++){
+    //     allPokes.push(allPokemons.results[i]);
+    //    }
+    // }
 
+    // function search(){
+    //     let search = document.getElementById('search').value;
+    //     search = search.toLowerCase();
+    //     for (let i = 0; i < allPokes.length; i++) {
+    //         let beginsWith = allPokes.name.filter((oneName) => oneName.startsWith(`${search}`));
+            
+    //     }
+    //     console.log(beginsWith);
+    // }
+        
     async function getAllPokemons(){
         setTimeout(2);
         let baseUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=1400';
         let response = await fetch(baseUrl);
-        allPokemons = await response.json(response);
+        allPokemons = await response.json();
         for (let i = 0; i< allPokemons.results.length; i++){
-            allNames.push(allPokemons.results[i].name);
+            allNames.push(allPokemons.results[i].name + '_'+[i]);
         
         }
-        search();
+        console.log(allPokemons);
+               
+
     }
 
     function search(){
         let search = document.getElementById('search').value;
-        let beginsWith = allNames.filter((oneName) => oneName.startsWith(`${search}`));
-        // console.log(beginsWith);
+   search = search.toLowerCase();
+   console.log(search);
+        beginsWith = allNames.filter((oneName) => oneName.startsWith(`${search}`));
         console.log(beginsWith);
+
+        getIds();
+      
+
+       
+       
          
         }
        
+
+       async  function getPokemonsFromSearch(ids){
+        let urls = [];
+        for (let i= 0; i<ids.length; i++){
+            if(ids[i] <1010){
+            urls = `https://pokeapi.co/api/v2/pokemon/${ids[i]}/`;
+                        }
+            else {
+                let newCount = + (ids[i]+8991);
+                urls = `https://pokeapi.co/api/v2/pokemon/${newCount}/`;
+
+            }
+            console.log(urls);
+            let response = await fetch(urls);
+            let searchedPokemon = await response.json();
+            searchedPokemons.push(searchedPokemon);
+            pokemons[ids[i]] = searchedPokemon;
+           
+        }
+        console.log('searched Pokes: ', searchedPokemons);
+        console.log(urls);
+        setTimeout(renderSearch,3);
+
+        }
+        function getIds(){
+            for (let i = 0; i < beginsWith.length; i++) {
+                let element = beginsWith[i];
+                console.log(element);
+                ids.push(getSecondPart(`${element}`));
+               
+            } 
+            console.log('Ids', ids);
+            getPokemonsFromSearch(ids);
+
+        }
+    function getSecondPart(string){
+         id = string.split('_')[1];
+        id = parseInt(id);
+        return id+1;
+        
+    }
+
+    function renderSearch() {
+        document.getElementById(`main`).innerHTML = ``;
+        for (let i=0; i< ids.length; i++) {
+            let j = ids[i];
+            console.log('Achtung: ', pokemons[j].types[0].type.name);
+            document.getElementById(`main`).innerHTML += pokemonMainTemplate(j);
     
+            renderTypes(j);
+            renderStats(j);
+            getMax(j);
+            renderMoves(j);
+            renderAbilities(j);
+            renderBaseExperience(j)
+        }
+    }
