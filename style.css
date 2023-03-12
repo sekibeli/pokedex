@@ -37,20 +37,25 @@ h2 {
 
 .buttons {
 display: flex;
-padding-left: 10px;
-padding-right: 10px;
+/* padding-left: 10px;
+padding-right: 10px; */
+gap: 3px;
+justify-content: center;
 
 
 }
 
 .btn {
-    margin-right: 5px;
+   
+    padding-right: 25px;
+    padding-left: 25px;
 }
 .input {
     margin-top: 20px;
     display: flex;
     align-items: center;
     height: 30px;
+    gap: 3px;
    
 }
 
@@ -302,6 +307,9 @@ padding-right: 10px;
         align-items: center;
         height: 150px;
     }
+    .input {
+        margin-top: 0;
+    }
 }
 @media (max-width: 500px){
     .header {
@@ -321,4 +329,18 @@ padding-right: 10px;
     height: 50px;
     margin: 10px;
 }
+.buttons {
+    margin-top: 3px;
+    width: 250px;
 }
+
+.btn {
+    padding-right: 20px;
+    padding-left: 20px;
+}
+}
+
+
+
+
+
