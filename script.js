@@ -23,20 +23,21 @@ async function load30Pokemon() {
     console.log('Server antwortet: ', pokemons);
     renderPokemonInfo();
     count += 30;
-    console.log(count);
-    loadTheRest();
+   
+   
   
 
 }
 
 async function loadTheRest(){
-    for (let i = 30; i < 1300; i++) {
+    for (let i = 30; i < 1008; i++) {
         let url = `https://pokeapi.co/api/v2/pokemon/${i}/`;
         let response = await fetch(url);
         let pokemon = await response.json();
         pokemons.push(pokemon);
 }
 }
+
 
 function renderPokemonInfo() {
     for (j = count - 1; j < pokemons.length; j++) {
@@ -92,9 +93,12 @@ function checkPic(j){
 if(pokemons[j].sprites.other.dream_world.front_default){
     return pokemons[j].sprites.other.dream_world.front_default;
     }
-else {
+else if(pokemons[j].sprites.other.home.front_default) {
     return pokemons[j].sprites.other.home.front_default;
     
+}
+else {
+    return "./img/picNotFound.png";
 }
 
 
@@ -203,7 +207,7 @@ function renderBaseExperience(j){
         getIds();
       
 
-       
+        searchButton.disabled = true;
        
          
         }
@@ -230,8 +234,11 @@ function renderBaseExperience(j){
         console.log('searched Pokes: ', searchedPokemons);
         console.log(urls);
         setTimeout(renderSearch,3);
-
+loadTheRest();
         }
+
+
+
         function getIds(){
             for (let i = 0; i < beginsWith.length; i++) {
                 let element = beginsWith[i];
@@ -254,7 +261,6 @@ function renderBaseExperience(j){
         document.getElementById(`main`).innerHTML = ``;
         for (let i=0; i< ids.length; i++) {
             let j = ids[i];
-            console.log('Achtung: ', pokemons[j].types[0].type.name);
             document.getElementById(`main`).innerHTML += pokemonMainTemplate(j);
     
             renderTypes(j);
@@ -264,4 +270,10 @@ function renderBaseExperience(j){
             renderAbilities(j);
             renderBaseExperience(j)
         }
+        document.getElementById('weiter').classList.add('d-none');
+    }
+
+    function reset(){
+        location.reload();
+     
     }

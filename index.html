@@ -19,12 +19,14 @@
     <div class="header">
        <img class="logo" src="img/pokemon_logo.svg" alt="">
         <div class="input">
-        <input id="search" type="text" placeholder="Search for pokemon" ><button class="searchButton" onclick="search()" >Search</button>
+        <input class="form-control" id="search" type="text" placeholder="Search for pokemon" >
+        <div class="buttons"><button id="searchButton" class="btn btn-primary" onclick="search()" >Search</button><button id="resetButton" class="btn btn-primary" onclick="reset()">Reset search</button></div>
     </div>
     </div>
          <div id="main">     
+        </div><div class="more">
+        <button class="btn btn-primary" id="weiter" onclick="load30Pokemon()">Load more Pokemon</button>
         </div>
-        <div id="weiter" onclick="load30Pokemon()">weiter</div>
 </body>
 
 </html>
