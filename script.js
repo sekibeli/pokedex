@@ -61,7 +61,11 @@ return `
                  <div class="types" id="types${j}"></div>
         </div>
         <span class="id" id="id${j}">#${pokemons[j].id}</span>
-        <img class="pokeImg" src=${pokemons[j].sprites.other.dream_world.front_default}>
+
+
+        <img class="pokeImg" src=${checkPic(j)}>
+       
+       
         <img class="poke_icon" src="./img/pokemon_bg_wht.png">
     </div>  
     <div id="heiWei">
@@ -83,6 +87,19 @@ return `
     </div>
     </div>`;
 }
+
+function checkPic(j){
+if(pokemons[j].sprites.other.dream_world.front_default){
+    return pokemons[j].sprites.other.dream_world.front_default;
+    }
+else {
+    return pokemons[j].sprites.other.home.front_default;
+    
+}
+
+
+}
+
 
 function renderTypes(j) {
     for (let i = 0; i < pokemons[j].types.length; i++) {
@@ -164,7 +181,7 @@ function renderBaseExperience(j){
         
     async function getAllPokemons(){
         setTimeout(2);
-        let baseUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=1400';
+        let baseUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=1008';
         let response = await fetch(baseUrl);
         allPokemons = await response.json();
         for (let i = 0; i< allPokemons.results.length; i++){
