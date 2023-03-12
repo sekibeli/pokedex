@@ -23,9 +23,32 @@
         <div class="buttons"><button id="searchButton" class="btn btn-primary" onclick="search()" >Search</button><button id="resetButton" class="btn btn-primary" onclick="reset()">Reset search</button></div>
     </div>
     </div>
-         <div id="main">     
-        </div><div class="more">
-        <button class="btn btn-primary" id="weiter" onclick="load30Pokemon()">Load more Pokemon</button>
+                                 
+
+    <div id="waitingDots" class="col-3 center">
+        <div class="snippet" data-title="dot-pulse">
+          <div class="stage">
+            <div class="dot-pulse"></div>
+          </div>
+        </div>
+      </div>
+    
+
+
+
+         <div id="main" class="d-none animate-bottom">     
+                     
+
+        </div>
+        
+        
+        
+        <div class="more">
+        <button class="btn btn-primary d-none" id="more" onclick="load30Pokemon()">Load more Pokemon</button>
+
+   
+
+
         </div>
 </body>
 

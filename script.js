@@ -10,24 +10,16 @@ let pokemonsOnScreen;
 let count = 1;
 
 async function load30Pokemon() {
-
     for (i = count; i < count + 30; i++) {
         let url = `https://pokeapi.co/api/v2/pokemon/${i}/`;
         let response = await fetch(url);
         let pokemon = await response.json();
         pokemons.push(pokemon);
-
-
-
     }
     console.log('Server antwortet: ', pokemons);
     renderPokemonInfo();
     count += 30;
-   
-   
-  
-
-}
+   }
 
 async function loadTheRest(){
     for (let i = 30; i < 1008; i++) {
@@ -38,9 +30,15 @@ async function loadTheRest(){
 }
 }
 
+function displayLoad(){
+    setTimeout(5000);
+    document.getElementById('waitingDots').classList.add('d-none');
+    document.getElementById('main').classList.remove('d-none');
+}
 
 function renderPokemonInfo() {
-    for (j = count - 1; j < pokemons.length; j++) {
+
+       for (j = count - 1; j < pokemons.length; j++) {
 
         document.getElementById(`main`).innerHTML += pokemonMainTemplate(j);
 
@@ -51,6 +49,8 @@ function renderPokemonInfo() {
         renderAbilities(j);
         renderBaseExperience(j)
     }
+    displayLoad();
+    document.getElementById('more').classList.remove('d-none');
 }
 
 function pokemonMainTemplate(j){
@@ -132,6 +132,8 @@ function renderAbilities(j){
 function show(param1, param2){
     document.getElementById(`${param1}`).classList.remove('d-none');
     document.getElementById(`${param2}`).classList.add('d-none');
+ 
+  
 }
 
 
@@ -232,8 +234,8 @@ function renderBaseExperience(j){
            
         }
         console.log('searched Pokes: ', searchedPokemons);
-        console.log(urls);
-        setTimeout(renderSearch,3);
+       // console.log(urls);
+         setTimeout(renderSearch,3);
 loadTheRest();
         }
 
@@ -258,6 +260,7 @@ loadTheRest();
     }
 
     function renderSearch() {
+      
         document.getElementById(`main`).innerHTML = ``;
         for (let i=0; i< ids.length; i++) {
             let j = ids[i];
@@ -270,10 +273,15 @@ loadTheRest();
             renderAbilities(j);
             renderBaseExperience(j)
         }
-        document.getElementById('weiter').classList.add('d-none');
+         document.getElementById('more').classList.add('d-none');
     }
 
     function reset(){
         location.reload();
      
     }
+
+    // function displayButton(){
+    //     setTimeout(document.getElementById('more').classList.remove('d-none'), 10000);
+        
+    // }
