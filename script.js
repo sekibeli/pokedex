@@ -6,7 +6,6 @@ let allPokes = [];
 let ids = [];
 let searchedPokemons = [];
 let urls = [];
-let pokemonsOnScreen;
 let count = 1;
 
 async function load30Pokemon() {
@@ -17,30 +16,21 @@ async function load30Pokemon() {
         let pokemon = await response.json();
         pokemons.push(pokemon);
     }
-    console.log('Server antwortet: ', pokemons);
+   
     renderPokemonInfo();
     count += 30;
 }
 
-async function loadTheRest() {
-    for (let i = 30; i <= 1008; i++) {
-        let url = `https://pokeapi.co/api/v2/pokemon/${i}/`;
-        let response = await fetch(url);
-        let pokemon = await response.json();
-        pokemons.push(pokemon);
-    }
-}
 
 function displayLoad() {
     document.getElementById('waitingDots').classList.add('d-none');
     document.getElementById('main').classList.remove('d-none');
 }
 
+
 function renderPokemonInfo() {
     for (j = count - 1; j < pokemons.length; j++) {
-        document.getElementById(`main`).innerHTML += pokemonMainTemplate(j);
-        renderFirstPart(j);
-        renderSecondPart(j);
+       renderMain(j);
     }
     displayLoad();
     document.getElementById('more').classList.remove('d-none');
@@ -112,6 +102,7 @@ function renderMoves(j) {
     }
 }
 
+
 function renderBaseExperience(j) {
     document.getElementById(`statsContainer${j}`).innerHTML += renderBaseExperienceTemplate(j);
 }
@@ -126,12 +117,11 @@ async function getAllPokemons() {
     }
 }
 
+
 function search() {
     let search = document.getElementById('search').value;
     search = search.toLowerCase();
-    console.log(search);
     beginsWith = allNames.filter((oneName) => oneName.startsWith(`${search}`));
-    console.log(beginsWith);
     getIds();
     searchButton.disabled = true;
 }
@@ -159,10 +149,8 @@ function newCountUrl(ids, i) {
 function getIds() {
     for (let i = 0; i < beginsWith.length; i++) {
         let element = beginsWith[i];
-        console.log(element);
         ids.push(getSecondPart(`${element}`));
     }
-    console.log('Ids', ids);
     getPokemonsFromSearch(ids);
 }
 
@@ -179,13 +167,7 @@ function renderSearch() {
     if (ids.length == 0) document.getElementById('main').innerHTML = `No matches found`;
     for (let i = 0; i < ids.length; i++) {
         let j = ids[i];
-        document.getElementById(`main`).innerHTML += pokemonMainTemplate(j);
-        renderTypes(j);
-        renderStats(j);
-        getMax(j);
-        renderMoves(j);
-        renderAbilities(j);
-        renderBaseExperience(j)
+      renderMain(j);
     }
     document.getElementById('more').classList.add('d-none');
 }
@@ -194,6 +176,7 @@ function renderSearch() {
 function reset() {
     location.reload();
 }
+
 
 function change(j) {
     document.getElementById(`stats${j}`).classList.toggle('menuActive');
@@ -217,4 +200,11 @@ function renderSecondPart(j) {
     renderMoves(j);
     renderAbilities(j);
     renderBaseExperience(j);
+}
+
+
+function renderMain(j){
+    document.getElementById(`main`).innerHTML += pokemonMainTemplate(j);
+    renderFirstPart(j);
+    renderSecondPart(j);
 }
