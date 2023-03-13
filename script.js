@@ -5,11 +5,12 @@ let beginsWith = [];
 let allPokes = [];
 let ids = [];
 let searchedPokemons = [];
-
+let urls = [];
 let pokemonsOnScreen;
 let count = 1;
 
 async function load30Pokemon() {
+    loading(`loading ...`);
     for (i = count; i < count + 30; i++) {
         let url = `https://pokeapi.co/api/v2/pokemon/${i}/`;
         let response = await fetch(url);
@@ -19,89 +20,44 @@ async function load30Pokemon() {
     console.log('Server antwortet: ', pokemons);
     renderPokemonInfo();
     count += 30;
-   }
+}
 
-async function loadTheRest(){
-    for (let i = 30; i < 1008; i++) {
+async function loadTheRest() {
+    for (let i = 30; i <= 1008; i++) {
         let url = `https://pokeapi.co/api/v2/pokemon/${i}/`;
         let response = await fetch(url);
         let pokemon = await response.json();
         pokemons.push(pokemon);
-}
+    }
 }
 
-function displayLoad(){
-    setTimeout(5000);
+function displayLoad() {
     document.getElementById('waitingDots').classList.add('d-none');
     document.getElementById('main').classList.remove('d-none');
 }
 
 function renderPokemonInfo() {
-
-       for (j = count - 1; j < pokemons.length; j++) {
-
+    for (j = count - 1; j < pokemons.length; j++) {
         document.getElementById(`main`).innerHTML += pokemonMainTemplate(j);
-
-        renderTypes(j);
-        renderStats(j);
-        getMax(j);
-        renderMoves(j);
-        renderAbilities(j);
-        renderBaseExperience(j)
+        renderFirstPart(j);
+        renderSecondPart(j);
     }
     displayLoad();
     document.getElementById('more').classList.remove('d-none');
+    loading(`Load more Pokemon`);
 }
 
-function pokemonMainTemplate(j){
-return `
-<div class="card">
-    <div class="pokedexCard ${pokemons[j].types[0].type.name}" id="pokedex${j}">
-         <div class="name">
-                <h2 id="pokemonName${j}">${pokemons[j].name}</h2>
-                 <div class="types" id="types${j}"></div>
-        </div>
-        <span class="id" id="id${j}">#${pokemons[j].id}</span>
 
-
-        <img class="pokeImg" src=${checkPic(j)}>
-       
-       
-        <img class="poke_icon" src="./img/pokemon_bg_wht.png">
-    </div>  
-    <div id="heiWei">
-        <span>${(pokemons[j].height)/10} m</span><br>
-        <span>${(pokemons[j].weight)/10} kg</span>
-        </div>
-    <div class="info-container">
-         <nav class="line">
-             <ul class="menu">
-                
-                <li class="menuActive" id="stats${j}" onclick="show('statsContainer${j}', 'movesContainer${j}'), change(${j})">Base Stats</li>
-                 <li id="moves${j}" onclick="show('movesContainer${j}', 'statsContainer${j}'), change(${j})">Moves</li>
-         </nav>
-        
-
-    <div id="statsContainer${j}" class="statsContainer"></div>
-    <div id="movesContainer${j}" class="movesContainer d-none"></div>
-   
-    </div>
-    </div>`;
-}
-
-function checkPic(j){
-if(pokemons[j].sprites.other.dream_world.front_default){
-    return pokemons[j].sprites.other.dream_world.front_default;
+function checkPic(j) {
+    if (pokemons[j].sprites.other.dream_world.front_default) {
+        return pokemons[j].sprites.other.dream_world.front_default;
     }
-else if(pokemons[j].sprites.other.home.front_default) {
-    return pokemons[j].sprites.other.home.front_default;
-    
-}
-else {
-    return "./img/picNotFound.png";
-}
-
-
+    else if (pokemons[j].sprites.other.home.front_default) {
+        return pokemons[j].sprites.other.home.front_default;
+    }
+    else {
+        return "./img/picNotFound.png";
+    }
 }
 
 
@@ -111,183 +67,154 @@ function renderTypes(j) {
     }
 }
 
-function renderStats(j){
+
+function renderStats(j) {
     for (let i = 0; i < pokemons[j].stats.length; i++) {
-        document.getElementById(`statsContainer${j}`).innerHTML += ` <div class="infoStats"><span class="statName">${pokemons[j].stats[i].stat.name}</span>
-        <span class="statAmount">${pokemons[j].stats[i].base_stat}</span>  <div class="progress" role="progressbar" aria-label="Example 20px high" 
-        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 5px">
-        <div class="progress-bar ${pokemons[j].types[0].type.name}" style="width: ${getCorrectBar(i,j)}%"></div>
-      </div></div>`;
+        document.getElementById(`statsContainer${j}`).innerHTML += renderStatsTemplate(i, j);
     }
 }
 
-function renderAbilities(j){
+
+function renderAbilities(j) {
     document.getElementById(`statsContainer${j}`).innerHTML += `<div class="abilities line"><span>Abilities</span></div>`;
-    for ( let i=0; i< pokemons[j].abilities.length; i++){
+    for (let i = 0; i < pokemons[j].abilities.length; i++) {
         document.getElementById(`statsContainer${j}`).innerHTML += `<span class="ability ${pokemons[j].types[0].type.name}">  ${pokemons[j].abilities[i].ability.name}</span>`;
     }
 }
 
 
-function show(param1, param2){
+function show(param1, param2) {
     document.getElementById(`${param1}`).classList.remove('d-none');
     document.getElementById(`${param2}`).classList.add('d-none');
- 
-  
 }
 
 
-function getMax(j){
-let numbers = [];
-for (let i=0; i< pokemons[j].stats.length; i++){
-numbers.push(pokemons[j].stats[i].base_stat);
-numbers.sort(function(a,b){return a-b});
-}
-return numbers;
+function getMax(j) {
+    let numbers = [];
+    for (let i = 0; i < pokemons[j].stats.length; i++) {
+        numbers.push(pokemons[j].stats[i].base_stat);
+        numbers.sort(function (a, b) { return a - b });
+    }
+    return numbers;
 }
 
 
-function getCorrectBar(i, j){
+function getCorrectBar(i, j) {
     let numbers = getMax(j);
-      return (100 / numbers[5] * pokemons[j].stats[i].base_stat);
+    return (100 / numbers[5] * pokemons[j].stats[i].base_stat);
 }
 
 
-function renderMoves(j){
-    for (let i=0; i< pokemons[j].moves.length; i++){
+function renderMoves(j) {
+    for (let i = 0; i < pokemons[j].moves.length; i++) {
         document.getElementById(`movesContainer${j}`).innerHTML += `<span>${pokemons[j].moves[i].move.name} </span>`;
-       
+
     }
 }
 
-function renderBaseExperience(j){
-    document.getElementById(`statsContainer${j}`).innerHTML += `<div class="abilities line"><span>Base Experience</span></div><span class="ability ${pokemons[j].types[0].type.name} ">${pokemons[j].base_experience}</span>`;
-   
-       
+function renderBaseExperience(j) {
+    document.getElementById(`statsContainer${j}`).innerHTML += renderBaseExperienceTemplate(j);
+}
+
+
+async function getAllPokemons() {
+    let baseUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=1280';
+    let response = await fetch(baseUrl);
+    allPokemons = await response.json();
+    for (let i = 0; i < allPokemons.results.length; i++) {
+        allNames.push(allPokemons.results[i].name + '_' + [i]);
     }
-    // async function getAllPokemons(){
-    //     setTimeout(2);
-    //     let baseUrl = ' https://pokeapi.co/api/v2/pokemon/?limit=1400';
-    //     let response = await fetch(baseUrl);
-    //     allPokemons = await response.json();
-    //    for(let i = 0; i < allPokemons.results.length; i++){
-    //     allPokes.push(allPokemons.results[i]);
-    //    }
-    // }
+}
 
-    // function search(){
-    //     let search = document.getElementById('search').value;
-    //     search = search.toLowerCase();
-    //     for (let i = 0; i < allPokes.length; i++) {
-    //         let beginsWith = allPokes.name.filter((oneName) => oneName.startsWith(`${search}`));
-            
-    //     }
-    //     console.log(beginsWith);
-    // }
-        
-    async function getAllPokemons(){
-        setTimeout(2);
-        let baseUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=1008';
-        let response = await fetch(baseUrl);
-        allPokemons = await response.json();
-        for (let i = 0; i< allPokemons.results.length; i++){
-            allNames.push(allPokemons.results[i].name + '_'+[i]);
-        
-        }
-        console.log(allPokemons);
-               
+function search() {
+    let search = document.getElementById('search').value;
+    search = search.toLowerCase();
+    console.log(search);
+    beginsWith = allNames.filter((oneName) => oneName.startsWith(`${search}`));
+    console.log(beginsWith);
+    getIds();
+    searchButton.disabled = true;
+}
 
+
+async function getPokemonsFromSearch(ids) {
+        for (let i = 0; i < ids.length; i++) {
+        if (ids[i] < 1010)  urls = `https://pokeapi.co/api/v2/pokemon/${ids[i]}/`;
+        else newCountUrl(ids, i);
+        let response = await fetch(urls);
+        let searchedPokemon = await response.json();
+        searchedPokemons.push(searchedPokemon);
+        pokemons[ids[i]] = searchedPokemon;
     }
-
-    function search(){
-        let search = document.getElementById('search').value;
-   search = search.toLowerCase();
-   console.log(search);
-        beginsWith = allNames.filter((oneName) => oneName.startsWith(`${search}`));
-        console.log(beginsWith);
-
-        getIds();
-      
-
-        searchButton.disabled = true;
-       
-         
-        }
-       
-
-       async  function getPokemonsFromSearch(ids){
-        let urls = [];
-        for (let i= 0; i<ids.length; i++){
-            if(ids[i] <1010){
-            urls = `https://pokeapi.co/api/v2/pokemon/${ids[i]}/`;
-                        }
-            else {
-                let newCount = + (ids[i]+8991);
-                urls = `https://pokeapi.co/api/v2/pokemon/${newCount}/`;
-
-            }
-            console.log(urls);
-            let response = await fetch(urls);
-            let searchedPokemon = await response.json();
-            searchedPokemons.push(searchedPokemon);
-            pokemons[ids[i]] = searchedPokemon;
-           
-        }
-        console.log('searched Pokes: ', searchedPokemons);
-       
-         renderSearch();
-// loadTheRest();
-        }
+    renderSearch();
+}
 
 
+function newCountUrl(ids, i) {
+    let newCount = + (ids[i] + 8990);
+    urls = `https://pokeapi.co/api/v2/pokemon/${newCount}/`;
+}
 
-        function getIds(){
-            for (let i = 0; i < beginsWith.length; i++) {
-                let element = beginsWith[i];
-                console.log(element);
-                ids.push(getSecondPart(`${element}`));
-               
-            } 
-            console.log('Ids', ids);
-            getPokemonsFromSearch(ids);
 
-        }
-    function getSecondPart(string){
-         id = string.split('_')[1];
-        id = parseInt(id);
-        return id+1;
-        
+function getIds() {
+    for (let i = 0; i < beginsWith.length; i++) {
+        let element = beginsWith[i];
+        console.log(element);
+        ids.push(getSecondPart(`${element}`));
     }
+    console.log('Ids', ids);
+    getPokemonsFromSearch(ids);
+}
 
-    function renderSearch() {
-      
-        document.getElementById(`main`).innerHTML = ``;
-        if(ids.length == 0) document.getElementById('main').innerHTML = `No matches found`;
-        for (let i=0; i< ids.length; i++) {
-            let j = ids[i];
-            document.getElementById(`main`).innerHTML += pokemonMainTemplate(j);
-    
-            renderTypes(j);
-            renderStats(j);
-            getMax(j);
-            renderMoves(j);
-            renderAbilities(j);
-            renderBaseExperience(j)
-        }
-         document.getElementById('more').classList.add('d-none');
+
+function getSecondPart(string) {
+    id = string.split('_')[1];
+    id = parseInt(id);
+    return id + 1;
+}
+
+
+function renderSearch() {
+    document.getElementById(`main`).innerHTML = ``;
+    if (ids.length == 0) document.getElementById('main').innerHTML = `No matches found`;
+    for (let i = 0; i < ids.length; i++) {
+        let j = ids[i];
+        document.getElementById(`main`).innerHTML += pokemonMainTemplate(j);
+        renderTypes(j);
+        renderStats(j);
+        getMax(j);
+        renderMoves(j);
+        renderAbilities(j);
+        renderBaseExperience(j)
     }
+    document.getElementById('more').classList.add('d-none');
+}
 
-    function reset(){
-        location.reload();
-     
-    }
 
-    // function displayButton(){
-    //     setTimeout(document.getElementById('more').classList.remove('d-none'), 10000);
-        
-    // }
+function reset() {
+    location.reload();
+}
 
-    function change(j){
-        document.getElementById(`stats${j}`).classList.toggle('menuActive');
-        document.getElementById(`moves${j}`).classList.toggle('menuActive');
-    }
+function change(j) {
+    document.getElementById(`stats${j}`).classList.toggle('menuActive');
+    document.getElementById(`moves${j}`).classList.toggle('menuActive');
+}
+
+
+function loading(text) {
+    document.getElementById('more').innerHTML = text;
+}
+
+
+function renderFirstPart(j) {
+    renderTypes(j);
+    renderStats(j);
+    getMax(j);
+}
+
+
+function renderSecondPart(j) {
+    renderMoves(j);
+    renderAbilities(j);
+    renderBaseExperience(j);
+}
