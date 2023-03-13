@@ -6,8 +6,21 @@ body {
     margin-top: 90px;
 }
 
+
 .col-3 {width: 100%;
 }
+
+.logo_fade {
+    opacity: 1;
+    animation: fade 2s linear;
+}
+
+
+@keyframes fade {
+  0% { opacity: 0 }
+  100% { opacity: 1 }
+}
+
 .logo {
     width: 200px;
     height: 70px;
@@ -64,6 +77,8 @@ justify-content: center;
     width: 250px;
 }
 #main{
+    padding-top: 20px;
+    min-height: 50vh;
     display: flex;
     justify-content: center ;
     flex-wrap: wrap;
@@ -195,7 +210,7 @@ justify-content: center;
 .line {
     border-bottom: 1px solid lightgrey;
 }
-.menu li:hover {
+/* .menu li:hover {
    
     cursor: pointer;
     text-decoration: underline;
@@ -204,7 +219,7 @@ justify-content: center;
     text-decoration-color: rgb(0, 0, 0);
     color: black;
 
-}
+} */
 
 .menuActive {
     text-decoration: underline;

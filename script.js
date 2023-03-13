@@ -77,8 +77,8 @@ return `
          <nav class="line">
              <ul class="menu">
                 
-                <li id="stats${j}" onclick="show('statsContainer${j}', 'movesContainer${j}')">Base Stats</li>
-                 <li id="moves${j}" onclick="show('movesContainer${j}', 'statsContainer${j}')">Moves</li>
+                <li class="menuActive" id="stats${j}" onclick="show('statsContainer${j}', 'movesContainer${j}'), change(${j})">Base Stats</li>
+                 <li id="moves${j}" onclick="show('movesContainer${j}', 'statsContainer${j}'), change(${j})">Moves</li>
          </nav>
         
 
@@ -234,9 +234,9 @@ function renderBaseExperience(j){
            
         }
         console.log('searched Pokes: ', searchedPokemons);
-       // console.log(urls);
-         setTimeout(renderSearch,3);
-loadTheRest();
+       
+         renderSearch();
+// loadTheRest();
         }
 
 
@@ -262,6 +262,7 @@ loadTheRest();
     function renderSearch() {
       
         document.getElementById(`main`).innerHTML = ``;
+        if(ids.length == 0) document.getElementById('main').innerHTML = `No matches found`;
         for (let i=0; i< ids.length; i++) {
             let j = ids[i];
             document.getElementById(`main`).innerHTML += pokemonMainTemplate(j);
@@ -285,3 +286,8 @@ loadTheRest();
     //     setTimeout(document.getElementById('more').classList.remove('d-none'), 10000);
         
     // }
+
+    function change(j){
+        document.getElementById(`stats${j}`).classList.toggle('menuActive');
+        document.getElementById(`moves${j}`).classList.toggle('menuActive');
+    }
