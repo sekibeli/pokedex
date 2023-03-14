@@ -1,10 +1,6 @@
-// let pokemons = [];
 let allPokemons = [];
 let allNames = [];
-let beginsWith = [];
 let allPokes = [];
-let ids = [];
-//  let searchedPokemons = [];
 let urls = [];
 let count = 0;
 let pokemons = [];
@@ -153,22 +149,16 @@ async function getAllPokemons() {
 }
 
 
-// function search(){
-//     setTimeout( function() {
-//         let search = document.getElementById('search').value;
-//         search = search.toLowerCase();
-//         beginsWith = allNames.filter((oneName) => oneName.startsWith(`${search}`));
-//         getIds();
-//         searchButton.disabled = true;
-//     }, 6000);
-// }
-
 function search() {
+  let beginsWith = [];
+    clearMain();
        let search = document.getElementById('search').value;
     search = search.toLowerCase();
+    document.getElementById('search').value = '';
     beginsWith = allNames.filter((oneName) => oneName.startsWith(`${search}`));
-    getIds();
-    searchButton.disabled = true;
+    getIds(beginsWith);
+   
+
 }
 
 
@@ -184,6 +174,8 @@ async function getPokemonsFromSearch(ids) {
         renderAll(index, searchedPokemons);
       
     }
+    if (ids.length == 0) document.getElementById('main').innerHTML = `No matches found`;
+    window.scrollTop();
 
 
 }
@@ -195,7 +187,8 @@ function newCountUrl(ids, i) {
 }
 
 
-function getIds() {
+function getIds(beginsWith) {
+    let ids = [];
    clearMain();
     for (let i = 0; i < beginsWith.length; i++) {
         let element = beginsWith[i];
@@ -223,9 +216,7 @@ function getSecondPart(string) {
 // }
 
 
-function reset() {
-    location.reload();
-}
+
 
 
 function change(j) {
