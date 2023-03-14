@@ -1,4 +1,4 @@
-let pokemons = [];
+// let pokemons = [];
 let allPokemons = [];
 let allNames = [];
 let beginsWith = [];
@@ -6,39 +6,76 @@ let allPokes = [];
 let ids = [];
 let searchedPokemons = [];
 let urls = [];
-let count = 1;
+let count = 0;
 
 async function load30Pokemon() {
-    loading(`loading ...`);
-    for (i = count; i < count + 30; i++) {
-        let url = `https://pokeapi.co/api/v2/pokemon/${i}/`;
+ let pokemons = [];
+    for (i = count; i < count + 40; i++) {
+        let url = `https://pokeapi.co/api/v2/pokemon/${i + 1}/`;
         let response = await fetch(url);
         let pokemon = await response.json();
         pokemons.push(pokemon);
+        renderPokemonInfo(i, pokemons);
     }
-   
-    renderPokemonInfo();
-    count += 30;
+    count = i;
+    console.log(count);
+}
+
+function renderPokemonInfo(i, pokemons) {
+    console.log('1 - renderPokemonInfo: ' ,pokemons)
+    renderAll(i, pokemons);
+    displayLoad();
+    document.getElementById('more').classList.remove('d-none');
+
 }
 
 
+function renderAll(j, pokemons) {
+    console.log('2 - renderAll: ', pokemons)
+    document.getElementById(`main`).innerHTML += pokemonMainTemplate(j, pokemons);
+    getMax(j, pokemons);
+
+    for (let i = 0; i < pokemons[j].types.length; i++) {  // types
+        document.getElementById(`types${j}`).innerHTML += `<span> ${pokemons[j].types[i].type.name}</span> `;
+        console.log('loopTypes');
+    }
+    for (let i = 0; i < pokemons[j].stats.length; i++) { // stats
+        document.getElementById(`statsContainer${j}`).innerHTML += renderStatsTemplate(i, j, pokemons);
+    }
+    
+
+    for (let i = 0; i < pokemons[j].moves.length; i++) { // moves
+        document.getElementById(`movesContainer${j}`).innerHTML += `<span>${pokemons[j].moves[i].move.name} </span>`;
+
+    }
+
+    document.getElementById(`statsContainer${j}`).innerHTML += `<div class="abilities line"><span>Abilities</span></div>`;  // abilities
+    for (let i = 0; i < pokemons[j].abilities.length; i++) {
+        document.getElementById(`statsContainer${j}`).innerHTML += `<span class="ability ${pokemons[j].types[0].type.name}">  ${pokemons[j].abilities[i].ability.name}</span>`;
+    }
+    document.getElementById(`statsContainer${j}`).innerHTML += renderBaseExperienceTemplate(j, pokemons); // base experience
+}
 function displayLoad() {
     document.getElementById('waitingDots').classList.add('d-none');
     document.getElementById('main').classList.remove('d-none');
 }
 
 
-function renderPokemonInfo() {
-    for (j = count - 1; j < pokemons.length; j++) {
-       renderMain(j);
+function getMax(j, pokemons) {
+    console.log('3 - getMax: ', pokemons);
+    let numbers = [];
+    for (let i = 0; i < pokemons[j].stats.length; i++) {
+        console.log(`statsloop`);
+        numbers.push(pokemons[j].stats[i].base_stat);
+        numbers.sort(function (a, b) { return a - b });
     }
-    displayLoad();
-    document.getElementById('more').classList.remove('d-none');
-    loading(`Load more Pokemon`);
+    console.log(numbers);
+    return numbers;
 }
 
 
-function checkPic(j) {
+
+function checkPic(j, pokemons) {
     if (pokemons[j].sprites.other.dream_world.front_default) {
         return pokemons[j].sprites.other.dream_world.front_default;
     }
@@ -60,7 +97,7 @@ function renderTypes(j) {
 
 function renderStats(j) {
     for (let i = 0; i < pokemons[j].stats.length; i++) {
-        document.getElementById(`statsContainer${j}`).innerHTML += renderStatsTemplate(i, j);
+        document.getElementById(`statsContainer${j}`).innerHTML += renderStatsTemplate(i, j, pokemons);
     }
 }
 
@@ -79,23 +116,16 @@ function show(param1, param2) {
 }
 
 
-function getMax(j) {
-    let numbers = [];
-    for (let i = 0; i < pokemons[j].stats.length; i++) {
-        numbers.push(pokemons[j].stats[i].base_stat);
-        numbers.sort(function (a, b) { return a - b });
-    }
-    return numbers;
-}
 
 
-function getCorrectBar(i, j) {
-    let numbers = getMax(j);
+
+function getCorrectBar(i, j, pokemons) {
+    let numbers = getMax(j, pokemons);
     return (100 / numbers[5] * pokemons[j].stats[i].base_stat);
 }
 
 
-function renderMoves(j) {
+function renderMoves(j, pokemons) {
     for (let i = 0; i < pokemons[j].moves.length; i++) {
         document.getElementById(`movesContainer${j}`).innerHTML += `<span>${pokemons[j].moves[i].move.name} </span>`;
 
@@ -103,8 +133,8 @@ function renderMoves(j) {
 }
 
 
-function renderBaseExperience(j) {
-    document.getElementById(`statsContainer${j}`).innerHTML += renderBaseExperienceTemplate(j);
+function renderBaseExperience(j, pokemons) {
+    document.getElementById(`statsContainer${j}`).innerHTML += renderBaseExperienceTemplate(j, pokemons);
 }
 
 
@@ -128,15 +158,18 @@ function search() {
 
 
 async function getPokemonsFromSearch(ids) {
-        for (let i = 0; i < ids.length; i++) {
-        if (ids[i] < 1010)  urls = `https://pokeapi.co/api/v2/pokemon/${ids[i]}/`;
-        else newCountUrl(ids, i);
+    for (let index = 0; index < ids.length; index++) {
+        if (ids[index] < 1010) urls = `https://pokeapi.co/api/v2/pokemon/${ids[index]}/`;
+        else newCountUrl(ids, index);
         let response = await fetch(urls);
         let searchedPokemon = await response.json();
         searchedPokemons.push(searchedPokemon);
-        pokemons[ids[i]] = searchedPokemon;
+
+        renderPokemonInfo(index, searchedPokemons);
+        console.log('index = ', index);
     }
-    renderSearch();
+
+
 }
 
 
@@ -147,6 +180,7 @@ function newCountUrl(ids, i) {
 
 
 function getIds() {
+    clearMain();
     for (let i = 0; i < beginsWith.length; i++) {
         let element = beginsWith[i];
         ids.push(getSecondPart(`${element}`));
@@ -162,15 +196,15 @@ function getSecondPart(string) {
 }
 
 
-function renderSearch() {
-    document.getElementById(`main`).innerHTML = ``;
-    if (ids.length == 0) document.getElementById('main').innerHTML = `No matches found`;
-    for (let i = 0; i < ids.length; i++) {
-        let j = ids[i];
-      renderMain(j);
-    }
-    document.getElementById('more').classList.add('d-none');
-}
+// function renderSearch() {
+//     document.getElementById(`main`).innerHTML = ``;
+//     if (ids.length == 0) document.getElementById('main').innerHTML = `No matches found`;
+//     for (let i = 0; i < ids.length; i++) {
+//         let j = ids[i];
+//       renderMain(j);
+//     }
+//     document.getElementById('more').classList.add('d-none');
+// }
 
 
 function reset() {
@@ -184,27 +218,29 @@ function change(j) {
 }
 
 
-function loading(text) {
-    document.getElementById('more').innerHTML = text;
+
+function renderFirstPart(j, pokemons) {
+    renderTypes(j, pokemons);
+    renderStats(j, pokemons);
+    getMax(j, pokemons);
 }
 
 
-function renderFirstPart(j) {
-    renderTypes(j);
-    renderStats(j);
-    getMax(j);
-}
+// function renderSecondPart(j) {
+//     renderMoves(j);
+//     renderAbilities(j);
+//     renderBaseExperience(j);
+// }
 
 
-function renderSecondPart(j) {
-    renderMoves(j);
-    renderAbilities(j);
-    renderBaseExperience(j);
-}
+// function renderMain(j){
+//     document.getElementById(`main`).innerHTML += pokemonMainTemplate(j);
+//     renderFirstPart(j);
+//     renderSecondPart(j);
+// }
 
 
-function renderMain(j){
-    document.getElementById(`main`).innerHTML += pokemonMainTemplate(j);
-    renderFirstPart(j);
-    renderSecondPart(j);
+
+function clearMain() {
+    document.getElementById(`main`).innerHTML = ``;
 }

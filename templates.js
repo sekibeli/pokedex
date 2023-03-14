@@ -1,4 +1,4 @@
-function pokemonMainTemplate(j){
+function pokemonMainTemplate(j, pokemons){
     return `
     <div class="card">
         <div class="pokedexCard ${pokemons[j].types[0].type.name}" id="pokedex${j}">
@@ -9,7 +9,7 @@ function pokemonMainTemplate(j){
             <span class="id" id="id${j}">#${pokemons[j].id}</span>
     
     
-            <img class="pokeImg" src=${checkPic(j)}>
+            <img class="pokeImg" src=${checkPic(j, pokemons)}>
            
            
             <img class="poke_icon" src="./img/pokemon_bg_wht.png">
@@ -34,14 +34,14 @@ function pokemonMainTemplate(j){
         </div>`;
     }
 
-    function renderStatsTemplate(i, j){
+    function renderStatsTemplate(i, j, pokemons){
         return ` <div class="infoStats"><span class="statName">${pokemons[j].stats[i].stat.name}</span>
         <span class="statAmount">${pokemons[j].stats[i].base_stat}</span>  <div class="progress" role="progressbar" aria-label="Example 20px high" 
         aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 5px">
-        <div class="progress-bar ${pokemons[j].types[0].type.name}" style="width: ${getCorrectBar(i, j)}%"></div>
+        <div class="progress-bar ${pokemons[j].types[0].type.name}" style="width: ${getCorrectBar(i, j, pokemons)}%"></div>
         </div></div>`;
         }
 
-        function renderBaseExperienceTemplate(j) {
+        function renderBaseExperienceTemplate(j, pokemons) {
             return  `<div class="abilities line"><span>Base Experience</span></div><span class="ability ${pokemons[j].types[0].type.name} ">${pokemons[j].base_experience}</span>`;
           }
