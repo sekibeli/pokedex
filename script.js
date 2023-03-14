@@ -4,40 +4,42 @@ let allNames = [];
 let beginsWith = [];
 let allPokes = [];
 let ids = [];
-let searchedPokemons = [];
+//  let searchedPokemons = [];
 let urls = [];
 let count = 0;
+let pokemons = [];
 
 async function load30Pokemon() {
- let pokemons = [];
-    for (i = count; i < count + 40; i++) {
+
+    for (i = count; i < count + 20; i++) {
         let url = `https://pokeapi.co/api/v2/pokemon/${i + 1}/`;
         let response = await fetch(url);
         let pokemon = await response.json();
         pokemons.push(pokemon);
-        renderPokemonInfo(i, pokemons);
+        renderAll(i, pokemons);
     }
     count = i;
     console.log(count);
 }
 
-function renderPokemonInfo(i, pokemons) {
-    console.log('1 - renderPokemonInfo: ' ,pokemons)
-    renderAll(i, pokemons);
-    displayLoad();
-    document.getElementById('more').classList.remove('d-none');
+// function renderPokemonInfo(i, pokemons, displayButton) {
+    
+//     renderAll(i, pokemons);
+//     displayLoad();
+//     document.getElementById('more').classList.remove('d-none')
+//     if (displayButton) document.getElementById('more').classList.remove('d-none')
 
-}
+// }
 
 
 function renderAll(j, pokemons) {
-    console.log('2 - renderAll: ', pokemons)
+   
     document.getElementById(`main`).innerHTML += pokemonMainTemplate(j, pokemons);
     getMax(j, pokemons);
 
     for (let i = 0; i < pokemons[j].types.length; i++) {  // types
         document.getElementById(`types${j}`).innerHTML += `<span> ${pokemons[j].types[i].type.name}</span> `;
-        console.log('loopTypes');
+        
     }
     for (let i = 0; i < pokemons[j].stats.length; i++) { // stats
         document.getElementById(`statsContainer${j}`).innerHTML += renderStatsTemplate(i, j, pokemons);
@@ -54,22 +56,25 @@ function renderAll(j, pokemons) {
         document.getElementById(`statsContainer${j}`).innerHTML += `<span class="ability ${pokemons[j].types[0].type.name}">  ${pokemons[j].abilities[i].ability.name}</span>`;
     }
     document.getElementById(`statsContainer${j}`).innerHTML += renderBaseExperienceTemplate(j, pokemons); // base experience
+
+
+   
 }
-function displayLoad() {
-    document.getElementById('waitingDots').classList.add('d-none');
-    document.getElementById('main').classList.remove('d-none');
-}
+// function displayLoad() {
+//     document.getElementById('waitingDots').classList.add('d-none');
+//     document.getElementById('main').classList.remove('d-none');
+// }
 
 
 function getMax(j, pokemons) {
-    console.log('3 - getMax: ', pokemons);
+   
     let numbers = [];
     for (let i = 0; i < pokemons[j].stats.length; i++) {
-        console.log(`statsloop`);
+        
         numbers.push(pokemons[j].stats[i].base_stat);
         numbers.sort(function (a, b) { return a - b });
     }
-    console.log(numbers);
+    
     return numbers;
 }
 
@@ -148,8 +153,18 @@ async function getAllPokemons() {
 }
 
 
+// function search(){
+//     setTimeout( function() {
+//         let search = document.getElementById('search').value;
+//         search = search.toLowerCase();
+//         beginsWith = allNames.filter((oneName) => oneName.startsWith(`${search}`));
+//         getIds();
+//         searchButton.disabled = true;
+//     }, 6000);
+// }
+
 function search() {
-    let search = document.getElementById('search').value;
+       let search = document.getElementById('search').value;
     search = search.toLowerCase();
     beginsWith = allNames.filter((oneName) => oneName.startsWith(`${search}`));
     getIds();
@@ -158,6 +173,7 @@ function search() {
 
 
 async function getPokemonsFromSearch(ids) {
+    let searchedPokemons = [];
     for (let index = 0; index < ids.length; index++) {
         if (ids[index] < 1010) urls = `https://pokeapi.co/api/v2/pokemon/${ids[index]}/`;
         else newCountUrl(ids, index);
@@ -165,8 +181,8 @@ async function getPokemonsFromSearch(ids) {
         let searchedPokemon = await response.json();
         searchedPokemons.push(searchedPokemon);
 
-        renderPokemonInfo(index, searchedPokemons);
-        console.log('index = ', index);
+        renderAll(index, searchedPokemons);
+      
     }
 
 
@@ -180,7 +196,7 @@ function newCountUrl(ids, i) {
 
 
 function getIds() {
-    clearMain();
+   clearMain();
     for (let i = 0; i < beginsWith.length; i++) {
         let element = beginsWith[i];
         ids.push(getSecondPart(`${element}`));
@@ -243,4 +259,20 @@ function renderFirstPart(j, pokemons) {
 
 function clearMain() {
     document.getElementById(`main`).innerHTML = ``;
+    
+   
+}
+
+function wrap(){
+    for (let i = 0; i < pokemons.length; i++) {
+        renderAll(i, pokemons);
+        
+    }
+}
+
+function reset(){
+    clearMain();
+    document.getElementById('search').value = '';
+    searchButton.disabled = false;
+    wrap();
 }
