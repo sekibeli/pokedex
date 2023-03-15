@@ -74,8 +74,7 @@ h2 {
 
 .buttons {
     display: flex;
-    gap: 3px;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 .btn {
@@ -198,7 +197,6 @@ h2 {
     margin-top: 5px;
     display: flex;
     list-style: none;
-    ;
     font-weight: 500;
     display: flex;
     padding-left: 0;
@@ -218,7 +216,6 @@ h2 {
     text-decoration-thickness: 2px;
     text-decoration-color: rgb(0, 0, 0);
     color: black;
-
 }
 
 .menuActive {
@@ -277,10 +274,6 @@ h2 {
     margin-bottom: 0;
     z-index: 200;
 }
-
-/* .statAmount {
-    width: 20px;
-} */
 
 .progress {
     width: 45%;
@@ -365,6 +358,10 @@ h2 {
 .steel {
     background-color: rgb(193, 2, 193);
 }
+
+.ice {
+    background-color: grey;
+}
 .center {
     display: flex;
     justify-content: center;
@@ -372,88 +369,6 @@ h2 {
     height: 200px;
 }
 
-.dot-pulse {
-    position: relative;
-    left: -9999px;
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    background-color: #9880ff;
-    color: #9880ff;
-    box-shadow: 9999px 0 0 -5px;
-    animation: dot-pulse 1.5s infinite linear;
-    animation-delay: 0.25s;
-}
-
-.dot-pulse::before,
-.dot-pulse::after {
-    content: "";
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    background-color: #9880ff;
-    color: #9880ff;
-}
-
-.dot-pulse::before {
-    box-shadow: 9984px 0 0 -5px;
-    animation: dot-pulse-before 1.5s infinite linear;
-    animation-delay: 0s;
-}
-
-.dot-pulse::after {
-    box-shadow: 10014px 0 0 -5px;
-    animation: dot-pulse-after 1.5s infinite linear;
-    animation-delay: 0.5s;
-}
-
-@keyframes dot-pulse-before {
-    0% {
-        box-shadow: 9984px 0 0 -5px;
-    }
-
-    30% {
-        box-shadow: 9984px 0 0 2px;
-    }
-
-    60%,
-    100% {
-        box-shadow: 9984px 0 0 -5px;
-    }
-}
-
-@keyframes dot-pulse {
-    0% {
-        box-shadow: 9999px 0 0 -5px;
-    }
-
-    30% {
-        box-shadow: 9999px 0 0 2px;
-    }
-
-    60%,
-    100% {
-        box-shadow: 9999px 0 0 -5px;
-    }
-}
-
-@keyframes dot-pulse-after {
-    0% {
-        box-shadow: 10014px 0 0 -5px;
-    }
-
-    30% {
-        box-shadow: 10014px 0 0 2px;
-    }
-
-    60%,
-    100% {
-        box-shadow: 10014px 0 0 -5px;
-    }
-}
 
 @media (max-width: 700px) {
     .header {
@@ -503,37 +418,5 @@ h2 {
     .btn {
         padding-right: 23px;
         padding-left: 23px;
-    }
-}
-
-.animate-bottom {
-    position: relative;
-    -webkit-animation-name: animatebottom;
-    -webkit-animation-duration: 1s;
-    animation-name: animatebottom;
-    animation-duration: 1s
-}
-
-@-webkit-keyframes animatebottom {
-    from {
-        bottom: -100px;
-        opacity: 0
-    }
-
-    to {
-        bottom: 0px;
-        opacity: 1
-    }
-}
-
-@keyframes animatebottom {
-    from {
-        bottom: -100px;
-        opacity: 0
-    }
-
-    to {
-        bottom: 0;
-        opacity: 1
     }
 }
