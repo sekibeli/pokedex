@@ -4,6 +4,7 @@ body {
     overflow-y: hidden;
     margin-top: 90px;
     background-color: rgb(238, 238, 238);
+   white-space: nowrap;
 }
 
 body:hover {
@@ -75,6 +76,7 @@ h2 {
 .buttons {
     display: flex;
     justify-content: center;
+    gap: 3px;
 }
 
 .btn {
